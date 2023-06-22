@@ -1,0 +1,202 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+/////////////////////////////////////////////////////////////////////////////
+// Нейтральный (по умолчанию) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
+LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_SPLASHICON          ICON                    "FrontFace Assistant.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 4,6,5,0
+ PRODUCTVERSION 4,6,5,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040004b0"
+        BEGIN
+            VALUE "CompanyName", "mirabyte"
+            VALUE "FileDescription", "FrontFace Player Starter Application"
+            VALUE "FileVersion", "4.6.5.0"
+            VALUE "InternalName", "FrontFace Player Starter.exe"
+            VALUE "LegalCopyright", "Copyright © 2017-2023 by mirabyte GmbH & Co. KG"
+            VALUE "OriginalFilename", "FrontFace Player Starter.exe"
+            VALUE "ProductName", "FrontFace"
+            VALUE "ProductVersion", "4.6.5.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x400, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// PNG
+//
+
+IDB_PNG2                PNG                     "Sprite-01.png"
+
+IDB_PNG3                PNG                     "Sprite-02.png"
+
+IDB_PNG4                PNG                     "Sprite-03.png"
+
+IDB_PNG5                PNG                     "Sprite-04.png"
+
+IDB_PNG6                PNG                     "Sprite-05.png"
+
+IDB_PNG7                PNG                     "Sprite-06.png"
+
+IDB_PNG8                PNG                     "Sprite-07.png"
+
+IDB_PNG9                PNG                     "Sprite-08.png"
+
+IDB_PNG10               PNG                     "Sprite-09.png"
+
+IDB_PNG11               PNG                     "Sprite-10.png"
+
+IDB_PNG12               PNG                     "Sprite-11.png"
+
+IDB_PNG13               PNG                     "Sprite-12.png"
+
+IDB_PNG14               PNG                     "Sprite-13.png"
+
+IDB_PNG15               PNG                     "Sprite-14.png"
+
+IDB_PNG16               PNG                     "Sprite-15.png"
+
+IDB_PNG17               PNG                     "Sprite-16.png"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDC_START_APP           "FrontFace Assistant.exe"
+    IDC_APP_PREFIX          "FrontFaceSplashScreenStarter"
+END
+
+#endif    // Нейтральный (по умолчанию) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Немецкий (Германия) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// PNG
+//
+
+IDR_SPLASH              PNG                     "SplashScreen.de.png"
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Немецкий (Германия) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Английский (США) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// PNG
+//
+
+IDR_SPLASH              PNG                     "SplashScreen.png"
+
+#endif    // Английский (США) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Французский (Франция) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRA)
+LANGUAGE LANG_FRENCH, SUBLANG_FRENCH
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// PNG
+//
+
+IDR_SPLASH              PNG                     "SplashScreen.fr.png"
+
+#endif    // Французский (Франция) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

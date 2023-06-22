@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FileImageLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceImageLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashScreenStarter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FileImageLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceImageLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SplashScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SplashScreenStarter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Trace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SplashScreen.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SplashScreenStarter.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="FrontFace Assistant.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="SplashScreen.de.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="SplashScreen.fr.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="spinner.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitload.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="spinner.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="png2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-01.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-02.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-03.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-04.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-05.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-06.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-07.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-08.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-09.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-10.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-11.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-12.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-13.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-14.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-15.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprite-16.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
