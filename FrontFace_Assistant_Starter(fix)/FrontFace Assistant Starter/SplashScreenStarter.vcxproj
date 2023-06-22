@@ -140,14 +140,7 @@
     <ResourceCompile Include="SplashScreenStarter.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="bitload.png" />
-    <Image Include="bitmap1.bmp" />
-    <Image Include="bitmap2.bmp" />
-    <Image Include="bitmap2.png" />
     <Image Include="FrontFace Assistant.ico" />
-    <Image Include="png2.png" />
-    <Image Include="spinner.gif" />
-    <Image Include="spinner.png" />
     <Image Include="SplashScreen.de.png" />
     <Image Include="SplashScreen.fr.png" />
     <Image Include="Sprite-01.png" />

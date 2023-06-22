@@ -26,7 +26,25 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
     LoadString(hInstance, IDC_START_APP, szStartFile, MAX_LOADSTRING);
     LoadString(hInstance, IDC_APP_PREFIX, szAppPrefix, MAX_LOADSTRING);
-
+    CImageLoader* imageLoaders[] = {
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG1), _T("PNG")),
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG2), _T("PNG")),
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG3), _T("PNG")),
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG4), _T("PNG")),
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG5), _T("PNG")),
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG6), _T("PNG")),
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG7), _T("PNG")),
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG8), _T("PNG")),
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG9), _T("PNG")),
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG10), _T("PNG")),
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG11), _T("PNG")),
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG12), _T("PNG")),
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG13), _T("PNG")),
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG14), _T("PNG")),
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG15), _T("PNG")),
+    new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG16), _T("PNG"))
+    };
+    int arraySize = sizeof(imageLoaders) / sizeof(imageLoaders[0]);
 
     CSplashScreen splash(
         hInstance,
@@ -40,23 +58,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
         // To load from a file, use this line instead, where 'filename' is the file you wish to load:
         // new CFileImageLoader(filename),
         new CResourceImageLoader(MAKEINTRESOURCE(IDR_SPLASH), _T("PNG")),
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG2), _T("PNG")), // Initial image
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG3), _T("PNG")), // Initial image
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG4), _T("PNG")), // Initial image
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG5), _T("PNG")), // Initial image
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG6), _T("PNG")), // Initial image
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG7), _T("PNG")), // Initial image
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG8), _T("PNG")), // Initial image
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG9), _T("PNG")), // Initial image
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG10), _T("PNG")), // Initial image
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG11), _T("PNG")), // Initial image
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG12), _T("PNG")), // Initial image
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG13), _T("PNG")), // Initial image
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG14), _T("PNG")), // Initial image
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG15), _T("PNG")), // Initial image
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG16), _T("PNG")), // Initial image
-        new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG17), _T("PNG")), // Initial image
-
+        imageLoaders,
         // Application prefix. This will be added to the event name to avoid conflicts between applications.
         szAppPrefix,
         // File name of your executable to run. The extension does not need to be .exe.  

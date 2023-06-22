@@ -3,28 +3,14 @@
 #include "SplashScreen.h"
 #include "shlwapi.h"
 #include <thread>
+#include <future>
 
 
 #pragma comment(lib, "msimg32.lib")
 
 
 CSplashScreen::CSplashScreen(HINSTANCE hInstance, DWORD nFadeoutTime, CImageLoader *pImgLoader, 
-	CImageLoader* pLoadImgLoader,
-	CImageLoader* pLoadImgLoader2,
-	CImageLoader* pLoadImgLoader3,
-	CImageLoader* pLoadImgLoader4,
-	CImageLoader* pLoadImgLoader5,
-	CImageLoader* pLoadImgLoader6,
-	CImageLoader* pLoadImgLoader7,
-	CImageLoader* pLoadImgLoader8,
-	CImageLoader* pLoadImgLoader9,
-	CImageLoader* pLoadImgLoader10,
-	CImageLoader* pLoadImgLoader11,
-	CImageLoader* pLoadImgLoader12,
-	CImageLoader* pLoadImgLoader13,
-	CImageLoader* pLoadImgLoader14,
-	CImageLoader* pLoadImgLoader15,
-	CImageLoader* pLoadImgLoader16,
+	CImageLoader* imageLoaders[],
 	LPCTSTR lpszPrefix, LPCTSTR lpszAppFileName)
 {
 	m_strSplashClass = _T("SplashWindow");
@@ -34,26 +20,12 @@ CSplashScreen::CSplashScreen(HINSTANCE hInstance, DWORD nFadeoutTime, CImageLoad
 	m_strPrefix = lpszPrefix;
 	m_strAppFileName = lpszAppFileName;
 	m_pImgLoader = pImgLoader;
-	m_pLoadImgLoader = pLoadImgLoader;
-	m_pLoadImgLoader2 = pLoadImgLoader2;
-	m_pLoadImgLoader3 = pLoadImgLoader3;
-	m_pLoadImgLoader4 = pLoadImgLoader4;
-	m_pLoadImgLoader5 = pLoadImgLoader5;
-	m_pLoadImgLoader6 = pLoadImgLoader6;
-	m_pLoadImgLoader7 = pLoadImgLoader7;
-	m_pLoadImgLoader8 = pLoadImgLoader8;
-	m_pLoadImgLoader9 = pLoadImgLoader9;
-	m_pLoadImgLoader10 = pLoadImgLoader10;
-	m_pLoadImgLoader11 = pLoadImgLoader11;
-	m_pLoadImgLoader12 = pLoadImgLoader12;
-	m_pLoadImgLoader13 = pLoadImgLoader13;
-	m_pLoadImgLoader14 = pLoadImgLoader14;
-	m_pLoadImgLoader15 = pLoadImgLoader15;
-	m_pLoadImgLoader16 = pLoadImgLoader16;
 
 	memset(&m_blend, 0, sizeof(m_blend));
 	m_nFadeoutEnd = 0;
-
+	for (int i = 0; i < 16; i++) {
+		m_pLoadImgLoader[i] = imageLoaders[i];
+	}
 }
 
 CSplashScreen::~CSplashScreen(void)
@@ -339,19 +311,17 @@ bool CSplashScreen::FadeWindowOut(HWND hWnd) {
 	}
 
 }
-
+std::atomic<bool> interruptAnimation(false);
+std::mutex animationMutex;
 bool exitanimation = false;
 inline DWORD CSplashScreen::PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCount, LPHANDLE pHandles, DWORD dwMilliseconds, HBITMAP combinedBitmapAnim[], HBITMAP combinedBitmapAnimas[])
 {
 	// useful variables
 	const DWORD dwStartTickCount = ::GetTickCount64();
 	// loop until done
-	
+
 	for (;;)
 	{
-		if(exitanimation == false)
-			AnimationCycle(hWnd, combinedBitmapAnim);
-
 		const DWORD dwElapsed = GetTickCount64() - dwStartTickCount;
 		const DWORD dwTimeout = dwMilliseconds == INFINITE ? INFINITE : dwElapsed < dwMilliseconds ? dwMilliseconds - dwElapsed : 0;
 
@@ -365,11 +335,19 @@ inline DWORD CSplashScreen::PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCoun
 
 			while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) != FALSE)
 			{
+				if (exitanimation == false)
+				{
+					// Добавить блокировку мьютекса перед вызовом AnimationCycle
+					std::lock_guard<std::mutex> lock(animationMutex);
+					int arraySize = 16;
+					AnimationCycle(hWnd, combinedBitmapAnim, arraySize);
+				}
 				if (msg.message == WM_QUIT)
 				{
 					// repost quit message and return
 					PostQuitMessage((int)msg.wParam);
-					return WAIT_OBJECT_0 + nCount;
+					return WAIT_OBJECT_0 + nCount;// Прервать выполнение анимации
+
 				}
 				// dispatch thread message
 				TranslateMessage(&msg);
@@ -378,8 +356,7 @@ inline DWORD CSplashScreen::PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCoun
 		}
 		else if (dwWaitResult == WAIT_OBJECT_0)
 		{
-			
-			exitanimation = true;
+
 			MSG msg;
 			// timeout on actual wait or any other object
 			SetTimer(hWnd, 1, 30, NULL);
@@ -388,7 +365,6 @@ inline DWORD CSplashScreen::PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCoun
 
 			while ((bRet = GetMessage(&msg, hWnd, 0, 0)) != 0)
 			{
-				
 				if (bRet == -1)
 				{
 					// handle the error and possibly exit
@@ -397,6 +373,9 @@ inline DWORD CSplashScreen::PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCoun
 				{
 					if (msg.message == WM_TIMER)
 					{
+						interruptAnimation.store(true);
+
+						exitanimation = true;
 						if (FadeWindowOut(hWnd))
 						{ // finished
 							return dwWaitResult;
@@ -413,18 +392,25 @@ inline DWORD CSplashScreen::PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCoun
 		}
 	}
 }
-int CSplashScreen::AnimationCycle(HWND hWnd,HBITMAP combinedBitmapAnim[]) {
-	for (int i = 0; i < 10; i++, Sleep(1)) {
-		int index = i % 16;  // Use remainder to loop back to start
+int CSplashScreen::AnimationCycle(HWND hWnd, HBITMAP combinedBitmapAnim[], int arraySize)
+{
+	for (int i = 0; i < arraySize; i++, Sleep(1)) {
+		// Проверка флага прерывания анимации
+		if (interruptAnimation.load())
+		{
+			return 0; // Выход из функции
+		}
 		if (combinedBitmapAnim[0] != NULL) {
-			std::thread splashThread1([this, hWnd, bitmap = combinedBitmapAnim[index]]() {
+			std::thread splashThread([this, hWnd, bitmap = combinedBitmapAnim[i]]() {
 				SetSplashImage(hWnd, bitmap);
 				});
-			splashThread1.detach();
+			splashThread.detach();
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(50));
 	}
+	return 0;
 }
+
 void CSplashScreen::Show()
 {
 	CoInitialize(0);
@@ -445,27 +431,16 @@ void CSplashScreen::Show()
 		ExitProcess(0);
 	}
 
-	HBITMAP hb1 = m_pImgLoader->LoadSplashImage();
-	HBITMAP hbFrames[] = {
-		m_pLoadImgLoader->LoadSplashImage(),
-		m_pLoadImgLoader2->LoadSplashImage(),
-		m_pLoadImgLoader3->LoadSplashImage(),
-		m_pLoadImgLoader4->LoadSplashImage(),
-		m_pLoadImgLoader5->LoadSplashImage(),
-		m_pLoadImgLoader6->LoadSplashImage(),
-		m_pLoadImgLoader7->LoadSplashImage(),
-		m_pLoadImgLoader8->LoadSplashImage(),
-		m_pLoadImgLoader9->LoadSplashImage(),
-		m_pLoadImgLoader10->LoadSplashImage(),
-		m_pLoadImgLoader11->LoadSplashImage(),
-		m_pLoadImgLoader12->LoadSplashImage(),
-		m_pLoadImgLoader13->LoadSplashImage(),
-		m_pLoadImgLoader14->LoadSplashImage(),
-		m_pLoadImgLoader15->LoadSplashImage(),
-		m_pLoadImgLoader16->LoadSplashImage()
-	};
+	HBITMAP hbFrames[16];
+	int numFrames = 0;
+	for (int i = 0; i < 16; i++) {
+		if (m_pLoadImgLoader[i] != NULL) {
+			hbFrames[numFrames] = m_pLoadImgLoader[i]->LoadSplashImage();
+			numFrames++;
+		}
+	}
+
 	HWND wnd = NULL;
-	int numFrames = sizeof(hbFrames) / sizeof(hbFrames[0]);
 
 	RegisterWindowClass();
 	TCHAR szCurrentFolder[MAX_PATH] = { 0 };
@@ -483,7 +458,6 @@ void CSplashScreen::Show()
 		PathCombine(szApplicationPath, szCurrentFolder, m_strAppFileName.c_str());
 	}
 
-
 	// check if the file exists
 	if (!PathFileExists(szApplicationPath))
 	{
@@ -492,14 +466,12 @@ void CSplashScreen::Show()
 		LPCWSTR concatted = concatted_stdstr.c_str();
 
 		MessageBox(NULL, concatted, (LPCWSTR)L"FrontFace Assistant", MB_ICONERROR | MB_OK);
-
 	}
-
 	// Get version info
-	DWORD  verHandle = 0;
-	UINT   size = 0;
+	DWORD verHandle = 0;
+	UINT size = 0;
 	LPBYTE lpBuffer = NULL;
-	DWORD  verSize = GetFileVersionInfoSize(szApplicationPath, &verHandle);
+	DWORD verSize = GetFileVersionInfoSize(szApplicationPath, &verHandle);
 	TCHAR version_buffer[32] = {};
 	if (verSize != NULL)
 	{
@@ -529,39 +501,36 @@ void CSplashScreen::Show()
 		}
 		delete[] verData;
 	}
-	
-	HBITMAP frame;
+
 	HBITMAP combinedBitmapAnim[16];
 
+	HBITMAP hb1 = m_pImgLoader->LoadSplashImage();
 
-	if (hb1 != NULL) {
-		wnd = CreateSplashWindow();
-		SetSplashImage(wnd, hb1);
-	}
-
+if (hb1 != NULL) {
+	wnd = CreateSplashWindow();
+	SetSplashImage(wnd, hb1);
+}
 	for (int i = 0; i < numFrames; i++) {
 		HBITMAP frame = hbFrames[i];
 		HBITMAP combinedBitmapText = CombineTextBitmaps(hb1, std::wstring(version_buffer));
 		HBITMAP combinedBitmap = CombineBitmaps(combinedBitmapText, frame);
-		
 		combinedBitmapAnim[i] = combinedBitmap;
 	}
-		std::thread splashThread([this, wnd, combinedBitmapAnim]() {
+	std::thread splashThread([this, wnd, combinedBitmapAnim]() {
 		SetSplashImage(wnd, combinedBitmapAnim[0]);
 		});
-		splashThread.detach();
+	splashThread.detach();
 	HANDLE hProcess = LaunchWpfApplication(wnd, *combinedBitmapAnim);
 	AllowSetForegroundWindow(GetProcessId(hProcess));
 	if (wnd != NULL) {
 		HANDLE handles[3] = { hProcess, hCloseSplashEvent, hCloseSplashWithoutFadeEvent };
 		PumpMsgWaitForMultipleObjects(wnd, 3, &handles[0], INFINITE, combinedBitmapAnim, combinedBitmapAnim);
-
 	}
-		CloseHandle(hCloseSplashEvent);
-		CloseHandle(hCloseSplashWithoutFadeEvent);
-
-		UnregisterWindowClass();
+	CloseHandle(hCloseSplashEvent);
+	CloseHandle(hCloseSplashWithoutFadeEvent);
+	UnregisterWindowClass();
 }
+
 void CSplashScreen::CloseSplashScreen(HWND wnd)
 {
 	DestroyWindow(wnd);
@@ -644,23 +613,48 @@ HBITMAP CSplashScreen::CombineTextBitmaps(HBITMAP hb1, const std::wstring& text)
 	BitBlt(hdcDest, 0, 0, combinedSize.cx, combinedSize.cy, hdcSrc, 0, 0, SRCCOPY);
 
 	// Create a text bitmap for the specified text and font
-	HFONT TempFont = CreateFont(16, 0, 0, 0, FW_BOLD, 0, 0, 0, 0, 0, 0, CLEARTYPE_QUALITY, 0, L"Arial\0");
-	SelectObject(hdcDest, TempFont);
+	LOGFONT lf;
+	memset(&lf, 0, sizeof(LOGFONT));
+	lf.lfHeight = 16;  // Font height in pixels
+	lf.lfWeight = FW_BOLD;  // Font weight
+	wcscpy_s(lf.lfFaceName, LF_FACESIZE, L"Arial");  // Font name
 
+	HFONT hFont = CreateFontIndirect(&lf);
+	SelectObject(hdcDest, hFont);
 	// Calculate the position to place the text bitmap
 	RECT textRect;
-	textRect.left = 200;//adjusting the position of the text, x
-	textRect.top = 405;//adjusting the position of the text, y
+	textRect.left = 200;  // adjusting the position of the text, x
+	textRect.top = 405;  // adjusting the position of the text, y
 	textRect.right = combinedSize.cx;
 	textRect.bottom = combinedSize.cy;
 	SetTextColor(hdcDest, 0x00000000);
-	SetBkColor(hdcDest, 0x00000000);
+	SetBkColor(hdcDest, TRANSPARENT);
 	SetBkMode(hdcDest, TRANSPARENT);
 	DrawText(hdcDest, text.c_str(), -1, &textRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-	/*TextOut(hdcDest, 100, 100, text.c_str(), static_cast<int>(text.length()));*/
+
+	// Create a text bitmap with alpha blending
+	HDC hdcText = CreateCompatibleDC(NULL);
+	HBITMAP hbText = CreateCompatibleBitmap(hdcDest, combinedSize.cx, combinedSize.cy);
+	HBITMAP hOldText = (HBITMAP)SelectObject(hdcText, hbText);
+	BitBlt(hdcText, 0, 0, combinedSize.cx, combinedSize.cy, hdcDest, 0, 0, SRCCOPY);
+
+	// Define the blending parameters
+	BLENDFUNCTION blendFunc;
+	blendFunc.BlendOp = AC_SRC_OVER;
+	blendFunc.BlendFlags = 0;
+	blendFunc.SourceConstantAlpha = 128;  // Adjust the alpha value as desired (0-255)
+	blendFunc.AlphaFormat = AC_SRC_ALPHA;
+
+	// Perform alpha blending
+	AlphaBlend(hdcDest, 0, 0, combinedSize.cx, combinedSize.cy, hdcText, 0, 0, combinedSize.cx, combinedSize.cy, blendFunc);
+
+	// Clean up the text-related resources
+	SelectObject(hdcText, hOldText);
+	DeleteObject(hbText);
+	DeleteDC(hdcText);
 
 	// Clean up the font
-	DeleteObject(TempFont);
+	DeleteObject(hFont);
 
 	// Clean up and release the device contexts
 	SelectObject(hdcSrc, hOldSrc);
@@ -671,6 +665,7 @@ HBITMAP CSplashScreen::CombineTextBitmaps(HBITMAP hb1, const std::wstring& text)
 	// Return the combined bitmap
 	return hCombinedBitmap;
 }
+
 void CSplashScreen::SetFullPath(LPCTSTR lpszPath) {
 	m_strFullPath = lpszPath;
 }

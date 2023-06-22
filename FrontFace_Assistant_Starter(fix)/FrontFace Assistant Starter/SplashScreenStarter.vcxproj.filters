@@ -83,27 +83,6 @@
     <Image Include="SplashScreen.fr.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="bitmap1.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="bitmap2.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="spinner.gif">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="bitload.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="bitmap2.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="spinner.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="png2.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Sprite-01.png">
       <Filter>Resource Files</Filter>
     </Image>
