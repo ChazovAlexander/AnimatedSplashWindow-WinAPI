@@ -88,11 +88,11 @@ IDB_PNG12               PNG                     "Sprite-12.png"
 
 IDB_PNG13               PNG                     "Sprite-13.png"
 
-IDB_PNG14               PNG                     "Sprite-14.png"
-
 IDB_PNG15               PNG                     "Sprite-15.png"
 
 IDB_PNG16               PNG                     "Sprite-16.png"
+
+IDB_PNG14               PNG                     "Sprite-14.png"
 
 
 /////////////////////////////////////////////////////////////////////////////

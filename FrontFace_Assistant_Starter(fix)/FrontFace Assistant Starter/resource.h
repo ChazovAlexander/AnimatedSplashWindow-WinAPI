@@ -920,7 +920,6 @@
 #define IDB_PNG13                       159
 #define VK_LSHIFT                       0xA0
 #define WM_NCMOUSEMOVE                  0x00A0
-#define IDB_PNG14                       160
 #define VK_RSHIFT                       0xA1
 #define WM_NCLBUTTONDOWN                0x00A1
 #define IDB_PNG15                       161
@@ -932,6 +931,7 @@
 #define IDB_PNG17                       163
 #define VK_LMENU                        0xA4
 #define WM_NCRBUTTONDOWN                0x00A4
+#define IDB_PNG14                       164
 #define VK_RMENU                        0xA5
 #define WM_NCRBUTTONUP                  0x00A5
 #define VK_BROWSER_BACK                 0xA6
@@ -1627,7 +1627,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        164
+#define _APS_NEXT_RESOURCE_VALUE        166
 #define _APS_NEXT_COMMAND_VALUE         32771
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           110

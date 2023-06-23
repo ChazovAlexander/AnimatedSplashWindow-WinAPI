@@ -131,5 +131,8 @@
     <Image Include="Sprite-16.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\..\..\..\Downloads\free-icon-font-settings-3917110.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -1,14 +1,14 @@
 ﻿  SplashScreen.cpp
-C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.h(22,16): warning C4200: нестандартное расширение: массив нулевого размера в структуре (объединении)
-C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.h(22,16): message : Этот член будет пропущен конструктором, установленным по умолчанию, или оператором назначения копии или перемещения
-C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.cpp(299,14): warning C4244: инициализация: преобразование "ULONGLONG" в "DWORD", возможна потеря данных
-C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.cpp(320,49): warning C4244: инициализация: преобразование "ULONGLONG" в "DWORD", возможна потеря данных
-C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.cpp(320,31): warning C4244: инициализация: преобразование "ULONGLONG" в "const DWORD", возможна потеря данных
-C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.cpp(338,44): warning C4244: инициализация: преобразование "ULONGLONG" в "DWORD", возможна потеря данных
-C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.cpp(338,25): warning C4244: инициализация: преобразование "ULONGLONG" в "const DWORD", возможна потеря данных
-C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.cpp(374,37): warning C4244: =: преобразование "ULONGLONG" в "DWORD", возможна потеря данных
+C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.h(23,16): warning C4200: нестандартное расширение: массив нулевого размера в структуре (объединении)
+C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.h(23,16): message : Этот член будет пропущен конструктором, установленным по умолчанию, или оператором назначения копии или перемещения
+C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.cpp(306,14): warning C4244: инициализация: преобразование "ULONGLONG" в "DWORD", возможна потеря данных
+C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.cpp(327,49): warning C4244: инициализация: преобразование "ULONGLONG" в "DWORD", возможна потеря данных
+C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.cpp(327,31): warning C4244: инициализация: преобразование "ULONGLONG" в "const DWORD", возможна потеря данных
+C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.cpp(345,44): warning C4244: инициализация: преобразование "ULONGLONG" в "DWORD", возможна потеря данных
+C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.cpp(345,25): warning C4244: инициализация: преобразование "ULONGLONG" в "const DWORD", возможна потеря данных
+C:\Users\ПК\Desktop\SplashWindow\FrontFace_Assistant_Starter(fix)\FrontFace Assistant Starter\SplashScreen.cpp(381,37): warning C4244: =: преобразование "ULONGLONG" в "DWORD", возможна потеря данных
   Создание кода
-  2 of 273 functions ( 0.7%) were compiled, the rest were copied from previous compilation.
+  1 of 273 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     1 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено

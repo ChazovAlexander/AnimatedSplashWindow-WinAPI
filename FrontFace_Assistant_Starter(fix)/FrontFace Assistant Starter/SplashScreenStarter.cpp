@@ -44,8 +44,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG15), _T("PNG")),
     new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG16), _T("PNG"))
     };
-    int arraySize = sizeof(imageLoaders) / sizeof(imageLoaders[0]);
-
     CSplashScreen splash(
         hInstance,
         // Length of time in milliseconds to display the splash screen fading

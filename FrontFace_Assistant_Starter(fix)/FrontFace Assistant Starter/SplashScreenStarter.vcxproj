@@ -140,6 +140,7 @@
     <ResourceCompile Include="SplashScreenStarter.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\Downloads\free-icon-font-settings-3917110.png" />
     <Image Include="FrontFace Assistant.ico" />
     <Image Include="SplashScreen.de.png" />
     <Image Include="SplashScreen.fr.png" />

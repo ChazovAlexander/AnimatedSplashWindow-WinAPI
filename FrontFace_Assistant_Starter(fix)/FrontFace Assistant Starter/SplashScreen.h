@@ -15,12 +15,12 @@ private:
 	BLENDFUNCTION m_blend ;
 	DWORD m_nFadeoutEnd ;
 	DWORD m_nFadeoutTime ;
+	int m_intArraySize;
 	std::basic_string <TCHAR> m_strFullPath;
 	std::basic_string <TCHAR> m_strPrefix;
 	std::basic_string <TCHAR> m_strAppFileName;
 	CImageLoader *m_pImgLoader;
 	CImageLoader* m_pLoadImgLoader[];
-
 	
 private:
 	HBITMAP CreateAlphaTextBitmap(LPCWSTR inText, HFONT inFont, COLORREF inColour);

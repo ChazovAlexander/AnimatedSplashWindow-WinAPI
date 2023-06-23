@@ -8,6 +8,8 @@
 
 #pragma comment(lib, "msimg32.lib")
 
+int numFrames = 0;
+
 
 CSplashScreen::CSplashScreen(HINSTANCE hInstance, DWORD nFadeoutTime, CImageLoader *pImgLoader, 
 	CImageLoader* imageLoaders[],
@@ -20,11 +22,16 @@ CSplashScreen::CSplashScreen(HINSTANCE hInstance, DWORD nFadeoutTime, CImageLoad
 	m_strPrefix = lpszPrefix;
 	m_strAppFileName = lpszAppFileName;
 	m_pImgLoader = pImgLoader;
-
 	memset(&m_blend, 0, sizeof(m_blend));
 	m_nFadeoutEnd = 0;
-	for (int i = 0; i < 16; i++) {
-		m_pLoadImgLoader[i] = imageLoaders[i];
+	while (imageLoaders[numFrames] != NULL) {
+		numFrames++;
+	}
+	for (int i = 0; i < numFrames; i++) {
+		if (m_pLoadImgLoader[i] != NULL) {
+			m_pLoadImgLoader[i] = imageLoaders[i];
+		}
+		
 	}
 }
 
@@ -320,14 +327,13 @@ inline DWORD CSplashScreen::PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCoun
 	const DWORD dwStartTickCount = ::GetTickCount64();
 	// loop until done
 	if (exitanimation == false) {
-		// Добавить блокировку мьютекса перед вызовом AnimationCycle
 		std::lock_guard<std::mutex> lock(animationMutex);
-		int arraySize = 16;
+
 
 		// Create a thread for the animation
 		std::thread animationThread([&]() {
 			while (true) {
-				AnimationCycle(hWnd, combinedBitmapAnim, arraySize);
+				AnimationCycle(hWnd, combinedBitmapAnim, numFrames);
 			}
 		});
 		// Detach the thread if you don't need to wait for it to finish
@@ -408,10 +414,10 @@ inline DWORD CSplashScreen::PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCoun
 int CSplashScreen::AnimationCycle(HWND hWnd, HBITMAP combinedBitmapAnim[], int arraySize)
 {
 	for (int i = 0; i < arraySize; i++, Sleep(1)) {
-		// Проверка флага прерывания анимации
+
 		if (interruptAnimation.load())
 		{
-			return 0; // Выход из функции
+			return 0; 
 		}
 		if (combinedBitmapAnim[0] != NULL) {
 			std::thread splashThread([this, hWnd, bitmap = combinedBitmapAnim[i]]() {
@@ -443,16 +449,6 @@ void CSplashScreen::Show()
 	if (GetLastError() == ERROR_ALREADY_EXISTS) {
 		ExitProcess(0);
 	}
-
-	HBITMAP hbFrames[16];
-	int numFrames = 0;
-	for (int i = 0; i < 16; i++) {
-		if (m_pLoadImgLoader[i] != NULL) {
-			hbFrames[numFrames] = m_pLoadImgLoader[i]->LoadSplashImage();
-			numFrames++;
-		}
-	}
-
 	HWND wnd = NULL;
 
 	RegisterWindowClass();
@@ -515,7 +511,7 @@ void CSplashScreen::Show()
 		delete[] verData;
 	}
 
-	HBITMAP combinedBitmapAnim[16];
+	HBITMAP* combinedBitmapAnim = new HBITMAP[numFrames];
 
 	HBITMAP hb1 = m_pImgLoader->LoadSplashImage();
 
@@ -524,7 +520,7 @@ if (hb1 != NULL) {
 	SetSplashImage(wnd, hb1);
 }
 	for (int i = 0; i < numFrames; i++) {
-		HBITMAP frame = hbFrames[i];
+		HBITMAP frame = m_pLoadImgLoader[i]->LoadSplashImage();
 		HBITMAP combinedBitmapText = CombineTextBitmaps(hb1, std::wstring(version_buffer));
 		HBITMAP combinedBitmap = CombineBitmaps(combinedBitmapText, frame);
 		combinedBitmapAnim[i] = combinedBitmap;
@@ -655,7 +651,7 @@ HBITMAP CSplashScreen::CombineTextBitmaps(HBITMAP hb1, const std::wstring& text)
 	BLENDFUNCTION blendFunc;
 	blendFunc.BlendOp = AC_SRC_OVER;
 	blendFunc.BlendFlags = 0;
-	blendFunc.SourceConstantAlpha = 128;  // Adjust the alpha value as desired (0-255)
+	blendFunc.SourceConstantAlpha = 0xBE;  // Adjust the alpha value as desired (0-255)
 	blendFunc.AlphaFormat = AC_SRC_ALPHA;
 
 	// Perform alpha blending
