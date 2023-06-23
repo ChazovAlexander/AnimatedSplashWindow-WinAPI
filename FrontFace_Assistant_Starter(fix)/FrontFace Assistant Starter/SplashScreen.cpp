@@ -319,7 +319,20 @@ inline DWORD CSplashScreen::PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCoun
 	// useful variables
 	const DWORD dwStartTickCount = ::GetTickCount64();
 	// loop until done
+	if (exitanimation == false) {
+		// Добавить блокировку мьютекса перед вызовом AnimationCycle
+		std::lock_guard<std::mutex> lock(animationMutex);
+		int arraySize = 16;
 
+		// Create a thread for the animation
+		std::thread animationThread([&]() {
+			while (true) {
+				AnimationCycle(hWnd, combinedBitmapAnim, arraySize);
+			}
+		});
+		// Detach the thread if you don't need to wait for it to finish
+		animationThread.detach();
+	}
 	for (;;)
 	{
 		const DWORD dwElapsed = GetTickCount64() - dwStartTickCount;
@@ -332,23 +345,19 @@ inline DWORD CSplashScreen::PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCoun
 		{
 			// pump messages
 			MSG msg;
-
+			
 			while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) != FALSE)
 			{
-				if (exitanimation == false)
-				{
-					// Добавить блокировку мьютекса перед вызовом AnimationCycle
-					std::lock_guard<std::mutex> lock(animationMutex);
-					int arraySize = 16;
-					AnimationCycle(hWnd, combinedBitmapAnim, arraySize);
-				}
+				
 				if (msg.message == WM_QUIT)
 				{
 					// repost quit message and return
 					PostQuitMessage((int)msg.wParam);
 					return WAIT_OBJECT_0 + nCount;// Прервать выполнение анимации
-
+					interruptAnimation.store(true);
+					exitanimation = true;
 				}
+				
 				// dispatch thread message
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
@@ -356,7 +365,9 @@ inline DWORD CSplashScreen::PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCoun
 		}
 		else if (dwWaitResult == WAIT_OBJECT_0)
 		{
-
+			interruptAnimation.store(true);
+			exitanimation = true;
+			Return:
 			MSG msg;
 			// timeout on actual wait or any other object
 			SetTimer(hWnd, 1, 30, NULL);
@@ -365,6 +376,7 @@ inline DWORD CSplashScreen::PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCoun
 
 			while ((bRet = GetMessage(&msg, hWnd, 0, 0)) != 0)
 			{
+				
 				if (bRet == -1)
 				{
 					// handle the error and possibly exit
@@ -374,7 +386,6 @@ inline DWORD CSplashScreen::PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCoun
 					if (msg.message == WM_TIMER)
 					{
 						interruptAnimation.store(true);
-
 						exitanimation = true;
 						if (FadeWindowOut(hWnd))
 						{ // finished
@@ -388,7 +399,9 @@ inline DWORD CSplashScreen::PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCoun
 		}
 		else
 		{
-			/*AnimationCycle(hWnd, combinedBitmapAnim);*/
+			interruptAnimation.store(true);
+			exitanimation = true;
+			goto Return;
 		}
 	}
 }
