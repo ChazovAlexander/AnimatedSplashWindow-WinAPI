@@ -26,6 +26,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
     LoadString(hInstance, IDC_START_APP, szStartFile, MAX_LOADSTRING);
     LoadString(hInstance, IDC_APP_PREFIX, szAppPrefix, MAX_LOADSTRING);
+    // Animation frames:
     CImageLoader* imageLoaders[] = {
     new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG1), _T("PNG")),
     new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG2), _T("PNG")),
@@ -44,31 +45,69 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG15), _T("PNG")),
     new CResourceImageLoader(MAKEINTRESOURCE(IDB_PNG16), _T("PNG"))
     };
-    CSplashScreen splash(
-        hInstance,
-        // Length of time in milliseconds to display the splash screen fading
-        1000,
-        // Specifies the way to load the image for the splash screen
-        // To load from the resources, provide the resource name and the resource type name.
-        // We have used PNG as an example.
-        // If you use a PNG, its opacity should be honored to allow you to display partially transparent splash screens.
-        // To edit the resources in a C++ application, go to the resource view tab.
-        // To load from a file, use this line instead, where 'filename' is the file you wish to load:
-        // new CFileImageLoader(filename),
-        new CResourceImageLoader(MAKEINTRESOURCE(IDR_SPLASH), _T("PNG")),
-        imageLoaders,
-        // Application prefix. This will be added to the event name to avoid conflicts between applications.
-        szAppPrefix,
-        // File name of your executable to run. The extension does not need to be .exe.  
-        // If you want to stop your users from starting your application without displaying the splash screen,
-        // you could use a different extension.
-        // It is assumed that the executable is in the same folder as this program.
-        // If it is not, you can call splash.SetFullPath.
-        szStartFile
-    );
 
-    // Display the splash screen
-    splash.Show();
+    // Try to load the image from local file system first "FrontFace Splash.png"
+    if (_access("FrontFace Splash.png", 0) == 0)
+    {
+        CSplashScreen splash(
+            hInstance,
+            // Length of time in milliseconds to display splashscreen fading 
+            1000,
+            // Specifies the way to load the image for the splashscreen 
+            // To load from the resources, as we have done here, provide the 
+            // resource name and the resource type name.  We have used a jpg.
+            // If you use a PNG, its opacity should be honored to allow you 
+            // to display partially transparent splashscreens.
+            // To edit the resources in a C++ application go to the resource 
+            // view tab
+            // To load from a file use this line instead, where filename is the file
+            // you wish to load:
+            new CFileImageLoader(_T("FrontFace Splash.png")),
+            imageLoaders,
+            // Application prefix.  This will be added to the event name so there are no 
+            // conflicts between applications.
+            szAppPrefix,
+            // File name of your executable to run.  The extension does not need to be .exe.  
+            // If you want to stop your users from starting your application without displaying
+            // the splashscreen you could use a different extension.
+            // Is assumed it is in the same folder as this program 
+            // If it is not you can call splash.SetFullPath
+            szStartFile
+        );
+
+        // Display the splash screen
+        splash.Show();
+    }
+    else
+    {
+        CSplashScreen splash(
+            hInstance,
+            // Length of time in milliseconds to display the splash screen fading
+            1000,
+            // Specifies the way to load the image for the splash screen
+            // To load from the resources, provide the resource name and the resource type name.
+            // We have used PNG as an example.
+            // If you use a PNG, its opacity should be honored to allow you to display partially transparent splash screens.
+            // To edit the resources in a C++ application, go to the resource view tab.
+            // To load from a file, use this line instead, where 'filename' is the file you wish to load:
+            // new CFileImageLoader(filename),
+            new CResourceImageLoader(MAKEINTRESOURCE(IDR_SPLASH), _T("PNG")),
+            imageLoaders,
+            // Application prefix. This will be added to the event name to avoid conflicts between applications.
+            szAppPrefix,
+            // File name of your executable to run. The extension does not need to be .exe.  
+            // If you want to stop your users from starting your application without displaying the splash screen,
+            // you could use a different extension.
+            // It is assumed that the executable is in the same folder as this program.
+            // If it is not, you can call splash.SetFullPath.
+            szStartFile
+        );
+
+        // Display the splash screen
+        splash.Show();
+
+    }
+
 
 }
 

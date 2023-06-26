@@ -33,7 +33,7 @@ private:
 	HANDLE LaunchWpfApplication(HWND hwndSplash, HBITMAP hbmpSplash);
 	
 	bool FadeWindowOut(HWND hwnd);
-	inline DWORD PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCount, LPHANDLE pHandles, DWORD dwMilliseconds, HBITMAP hbmpComSplash[], HBITMAP combinedBitmapAnimas[]);
+	inline DWORD PumpMsgWaitForMultipleObjects(HWND hWnd, DWORD nCount, LPHANDLE pHandles, DWORD dwMilliseconds, HBITMAP hbmpComSplash[], HBITMAP combinedBitmapAnimas[], const std::wstring& text);
 public:
 	CSplashScreen(HINSTANCE hInstance, DWORD nFadeoutTime, CImageLoader *pImgLoader,
 		CImageLoader* imageLoaders[],
@@ -41,10 +41,10 @@ public:
 	~CSplashScreen(void);
 	HBITMAP CSplashScreen::CombineBitmaps(HBITMAP hb1, HBITMAP hb2);
 	HBITMAP CSplashScreen::CombineTextBitmaps(HBITMAP hb1, const std::wstring& text);
-	int CSplashScreen::AnimationCycle(HWND hWnd, HBITMAP combinedBitmapAnim[], int arraySize);
+	int CSplashScreen::AnimationCycle(HWND hWnd, HBITMAP combinedBitmapAnim[], int arraySize, const std::wstring& text);
 	void SetFullPath(LPCTSTR lpszPath) ;
 	void CSplashScreen::Show();
-	void CSplashScreen::CloseSplashScreen(HWND wnd);
+	/*void CSplashScreen::CloseSplashScreen(HWND wnd);*/
 };
 
 
