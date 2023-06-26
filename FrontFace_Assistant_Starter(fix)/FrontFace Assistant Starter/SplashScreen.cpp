@@ -539,6 +539,7 @@ void CSplashScreen::Show()
 
 if (hb1 != NULL) {
 	wnd = CreateSplashWindow();
+	SetSplashImage(wnd, hb1);
 }
 	for (int i = 0; i < numFrames; i++) {
 		HBITMAP frame = m_pLoadImgLoader[i]->LoadSplashImage();
